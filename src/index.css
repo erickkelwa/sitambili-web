@@ -8,22 +8,13 @@
   --bg-light: #F4F4F9;
   --font-base: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-  /* Light Mode Variables (Default) */
+  /* Theme Variables */
   --body-bg: #F4F4F9;
   --card-bg: #FFFFFF;
   --text-main: #1A1A1A;
   --text-muted: #555555;
   --nav-bg: #0033A0;
   --section-alt-bg: #FFFFFF;
-}
-
-[data-theme='dark'] {
-  --body-bg: #0F172A;
-  --card-bg: #1E293B;
-  --text-main: #F8FAFC;
-  --text-muted: #94A3B8;
-  --nav-bg: #001F61;
-  --section-alt-bg: #1E293B;
 }
 
 * {
