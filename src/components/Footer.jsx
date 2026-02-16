@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Trophy, MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
+import { Facebook, Instagram, Trophy, MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -46,9 +46,6 @@ const Footer = () => {
                         <div style={{ display: 'flex', gap: '1rem' }}>
                             <a href="https://www.facebook.com/sitambilifc" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: 'rgba(255,255,255,0.1)', p: '0.6rem', borderRadius: '50%', display: 'flex', padding: '0.6rem' }} className="social-hover">
                                 <Facebook size={20} />
-                            </a>
-                            <a href="#" style={{ backgroundColor: 'rgba(255,255,255,0.1)', p: '0.6rem', borderRadius: '50%', display: 'flex', padding: '0.6rem' }} className="social-hover">
-                                <Twitter size={20} />
                             </a>
                             <a href="https://www.instagram.com/sitambilifc" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: 'rgba(255,255,255,0.1)', p: '0.6rem', borderRadius: '50%', display: 'flex', padding: '0.6rem' }} className="social-hover">
                                 <Instagram size={20} />
