@@ -2,15 +2,9 @@ import React from 'react';
 import { ShoppingBag, Star, ShieldCheck, Truck } from 'lucide-react';
 
 const Shop = () => {
-    const handleOrder = (productName) => {
-        const phoneNumber = prompt(`You are ordering the ${productName}.\n\nPlease enter your phone number to receive payment instructions via M-Pesa:`);
+    const phoneNumber = "+254790591621";
+    const whatsappMessage = encodeURIComponent("Hello, I would like to order a Sita Mbili FC jersey!");
 
-        if (phoneNumber) {
-            alert(`Thank you! Our team will contact you at ${phoneNumber} shortly to complete your order for the ${productName}.`);
-        }
-    };
-
-    // Placeholder for jerseys to be provided later
     const products = [
         {
             id: 1,
@@ -116,8 +110,10 @@ const Shop = () => {
                                 <h3 style={{ fontSize: '1.25rem', margin: '0.5rem 0', color: '#333' }}>{product.name}</h3>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem' }}>
                                     <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary-blue)' }}>{product.price}</span>
-                                    <button
-                                        onClick={() => handleOrder(product.name)}
+                                    <a
+                                        href={`https://wa.me/${phoneNumber}?text=${whatsappMessage}%20(${product.name})`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         style={{
                                             backgroundColor: 'var(--color-primary-blue)',
                                             color: '#fff',
@@ -127,10 +123,11 @@ const Shop = () => {
                                             alignItems: 'center',
                                             gap: '0.5rem',
                                             fontWeight: 600,
-                                            transition: 'all 0.3s ease'
+                                            transition: 'all 0.3s ease',
+                                            textDecoration: 'none'
                                         }} className="buy-btn">
-                                        <ShoppingBag size={18} /> Order Now
-                                    </button>
+                                        <ShoppingBag size={18} /> Buy Now
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -139,9 +136,12 @@ const Shop = () => {
 
                 {/* Info Text */}
                 <div style={{ marginTop: '5rem', textAlign: 'center', padding: '3rem', backgroundColor: 'var(--color-primary-blue)', borderRadius: '20px', color: '#fff' }}>
-                    <h2 style={{ color: 'var(--color-secondary-yellow)', marginBottom: '1rem' }}>Coming Very Soon!</h2>
+                    <h2 style={{ color: 'var(--color-secondary-yellow)', marginBottom: '1rem' }}>Order via WhatsApp or Call</h2>
+                    <p style={{ fontSize: '1.4rem', fontWeight: 700, margin: '1rem 0' }}>
+                        {phoneNumber}
+                    </p>
                     <p style={{ opacity: 0.9, maxWidth: '600px', margin: '0 auto' }}>
-                        We are currently finalizing our 2024/25 kit designs. Sign up for our newsletter to be the first to know when the shop goes live!
+                        Click a button above to order via WhatsApp, or call us directly at the number above to secure your Sita Mbili FC jersey!
                     </p>
                 </div>
             </div>
