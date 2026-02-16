@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Donate from './pages/Donate';
 import Contact from './pages/Contact';
 import AdminDashboard from './pages/AdminDashboard';
+import Shop from './pages/Shop';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/donate" element={<Donate />} />
+            <Route path="/shop" element={<Shop />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
