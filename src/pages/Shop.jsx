@@ -2,6 +2,14 @@ import React from 'react';
 import { ShoppingBag, Star, ShieldCheck, Truck } from 'lucide-react';
 
 const Shop = () => {
+    const handleOrder = (productName) => {
+        const phoneNumber = prompt(`You are ordering the ${productName}.\n\nPlease enter your phone number to receive payment instructions via M-Pesa:`);
+
+        if (phoneNumber) {
+            alert(`Thank you! Our team will contact you at ${phoneNumber} shortly to complete your order for the ${productName}.`);
+        }
+    };
+
     // Placeholder for jerseys to be provided later
     const products = [
         {
@@ -108,17 +116,19 @@ const Shop = () => {
                                 <h3 style={{ fontSize: '1.25rem', margin: '0.5rem 0', color: '#333' }}>{product.name}</h3>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem' }}>
                                     <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary-blue)' }}>{product.price}</span>
-                                    <button style={{
-                                        backgroundColor: 'var(--color-primary-blue)',
-                                        color: '#fff',
-                                        padding: '0.8rem 1.5rem',
-                                        borderRadius: '12px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        fontWeight: 600,
-                                        transition: 'all 0.3s ease'
-                                    }} className="buy-btn">
+                                    <button
+                                        onClick={() => handleOrder(product.name)}
+                                        style={{
+                                            backgroundColor: 'var(--color-primary-blue)',
+                                            color: '#fff',
+                                            padding: '0.8rem 1.5rem',
+                                            borderRadius: '12px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.5rem',
+                                            fontWeight: 600,
+                                            transition: 'all 0.3s ease'
+                                        }} className="buy-btn">
                                         <ShoppingBag size={18} /> Order Now
                                     </button>
                                 </div>
