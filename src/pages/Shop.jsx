@@ -6,27 +6,19 @@ const Shop = () => {
     const products = [
         {
             id: 1,
-            name: "Sita Mbili FC - Home Jersey 2024/25",
-            price: "TBD",
+            name: "Sita Mbili FC - Official Home Jersey 2024/25",
+            price: "KES 1,500",
             category: "Jerseys",
-            image: "https://images.unsplash.com/photo-1577223625816-7546f13df25d?q=80&w=600&auto=format&fit=crop", // placeholder
-            tag: "Coming Soon"
+            image: "/jersey1.jpg",
+            tag: "Available Now"
         },
         {
             id: 2,
-            name: "Sita Mbili FC - Away Jersey 2024/25",
-            price: "TBD",
+            name: "Sita Mbili FC - Official Away Jersey 2024/25",
+            price: "KES 1,500",
             category: "Jerseys",
-            image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=600&auto=format&fit=crop", // placeholder
-            tag: "Coming Soon"
-        },
-        {
-            id: 3,
-            name: "Training Kit - Professional Edition",
-            price: "TBD",
-            category: "Training",
-            image: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600&auto=format&fit=crop", // placeholder
-            tag: "Limited Stock"
+            image: "/jersey2.jpg",
+            tag: "Available Now"
         }
     ];
 
@@ -127,7 +119,7 @@ const Shop = () => {
                                         fontWeight: 600,
                                         transition: 'all 0.3s ease'
                                     }} className="buy-btn">
-                                        <ShoppingBag size={18} /> Pre-order
+                                        <ShoppingBag size={18} /> Order Now
                                     </button>
                                 </div>
                             </div>
