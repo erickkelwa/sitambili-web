@@ -5,11 +5,15 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+// Serve static files from the React app if in production
+const frontendBuildPath = path.resolve(__dirname, '../dist');
+app.use(express.static(frontendBuildPath));
 
 // Database Setup
 const dbPath = path.resolve(__dirname, 'donations.db');
@@ -33,22 +37,12 @@ const db = new sqlite3.Database(dbPath, (err) => {
                 console.error('Error creating table:', err.message);
             } else {
                 console.log('Donations table ready.');
-                // Check if table is empty
-                db.get("SELECT count(*) as count FROM donations", (err, row) => {
-                    if (err) {
-                        console.error("Error checking table:", err.message);
-                    } else if (row && row.count === 0) {
-                        console.log("Database table 'donations' is empty and ready for new data.");
-                    }
-                });
             }
         });
     }
 });
 
-// Routes
-
-// Get all donations
+// Routes API
 app.get('/api/donations', (req, res) => {
     db.all("SELECT * FROM donations ORDER BY date DESC", [], (err, rows) => {
         if (err) {
@@ -59,59 +53,42 @@ app.get('/api/donations', (req, res) => {
     });
 });
 
-// Create a new donation record
 app.post('/api/donations', (req, res) => {
     const { name, amount, method, phone, date } = req.body;
-
     if (!name || !amount || !method || !date) {
         res.status(400).json({ error: "Missing required fields" });
         return;
     }
-
     const stmt = db.prepare("INSERT INTO donations (name, amount, method, phone, date, status) VALUES (?, ?, ?, ?, ?, ?)");
     stmt.run(name, amount, method, phone, date, "Pending", function (err) {
         if (err) {
             res.status(500).json({ error: err.message });
             return;
         }
-        res.json({
-            id: this.lastID,
-            name,
-            amount,
-            method,
-            phone,
-            date,
-            status: "Pending",
-            message: "Donation recorded successfully"
-        });
+        res.json({ id: this.lastID, name, amount, method, phone, date, status: "Pending" });
     });
     stmt.finalize();
 });
 
-// Update donation status
 app.put('/api/donations/:id/status', (req, res) => {
     const { status } = req.body;
     const { id } = req.params;
-
-    if (!status) {
-        res.status(400).json({ error: "Status required" });
-        return;
-    }
-
     db.run("UPDATE donations SET status = ? WHERE id = ?", [status, id], function (err) {
         if (err) {
             res.status(500).json({ error: err.message });
-            return;
-        }
-        if (this.changes === 0) {
-            res.status(404).json({ error: "Donation not found" });
             return;
         }
         res.json({ message: "Status updated successfully" });
     });
 });
 
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendBuildPath, 'index.html'));
+});
+
 // Start Server
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

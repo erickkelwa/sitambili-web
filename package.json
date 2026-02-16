@@ -7,9 +7,15 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server/index.js",
+    "build:all": "npm install && npm run build && cd server && npm install"
   },
   "dependencies": {
+    "express": "^5.2.1",
+    "sqlite3": "^5.1.7",
+    "cors": "^2.8.6",
+    "body-parser": "^2.2.2",
     "lucide-react": "^0.564.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

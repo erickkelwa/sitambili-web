@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, User, DollarSign, Calendar, Lock, Loader2, RefreshCw } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const AdminDashboard = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -11,7 +12,7 @@ const AdminDashboard = () => {
     const fetchDonations = async () => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:3000/api/donations');
+            const response = await fetch(`${API_BASE_URL}/api/donations`);
             if (!response.ok) throw new Error('Failed to fetch donations');
             const data = await response.json();
             setDonations(data);
@@ -31,7 +32,7 @@ const AdminDashboard = () => {
 
     const updateStatus = async (id, newStatus) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/donations/${id}/status`, {
+            const response = await fetch(`${API_BASE_URL}/api/donations/${id}/status`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
