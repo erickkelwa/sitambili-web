@@ -22,16 +22,17 @@ const SuccessSection = () => {
                 </div>
 
                 {/* Overview & Image Section */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center', marginBottom: '5rem' }}>
-                    <div className="animate-fade-in">
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center', marginBottom: '5rem' }} className="journey-grid">
+                    <div className="animate-fade-in journey-image-container">
                         <img
                             src="/sucsess.jpg"
                             alt="Sita Mbili FC Team Success"
-                            style={{ width: '100%', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.15)' }}
+                            className="hover-image"
+                            style={{ width: '100%', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.15)', transition: 'all 0.4s ease' }}
                         />
                     </div>
 
-                    <div>
+                    <div className="journey-text">
                         <h3 style={{ fontSize: '1.8rem', color: 'var(--color-primary-blue)', marginBottom: '1.5rem', fontWeight: 700 }}>
                             More Than Just A Club
                         </h3>
@@ -40,7 +41,7 @@ const SuccessSection = () => {
                             Starting out with friendly matches and local tournaments, the club gradually built its foundation before entering competitive football through the Interbase League.
                         </p>
 
-                        <div style={{ backgroundColor: '#fff', padding: '1.5rem', borderRadius: '8px', borderLeft: '4px solid var(--color-secondary-yellow)', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
+                        <div className="vision-card" style={{ backgroundColor: '#fff', padding: '1.5rem', borderRadius: '8px', borderLeft: '4px solid var(--color-secondary-yellow)', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', transition: 'all 0.3s ease' }}>
                             <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', color: 'var(--color-primary-blue)' }}>
                                 <Target size={20} /> Vision & Goals
                             </h4>
@@ -56,13 +57,14 @@ const SuccessSection = () => {
                     <h3 style={{ textAlign: 'center', fontSize: '2rem', color: 'var(--color-primary-blue)', marginBottom: '3rem' }}>Key Milestones</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
                         {milestones.map((milestone, index) => (
-                            <div key={index} style={{
+                            <div key={index} className="milestone-card" style={{
                                 backgroundColor: '#fff',
                                 padding: '1.5rem',
                                 borderRadius: '12px',
                                 textAlign: 'center',
                                 boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-                                borderTop: `4px solid ${index % 2 === 0 ? 'var(--color-primary-blue)' : 'var(--color-secondary-yellow)'}`
+                                borderTop: `4px solid ${index % 2 === 0 ? 'var(--color-primary-blue)' : 'var(--color-secondary-yellow)'}`,
+                                transition: 'all 0.3s ease'
                             }}>
                                 <h4 style={{ fontSize: '1.5rem', color: '#FFD700', fontWeight: 800, marginBottom: '0.5rem' }}>{milestone.year}</h4>
                                 <h5 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.5rem', color: '#333' }}>{milestone.title}</h5>
@@ -80,15 +82,16 @@ const SuccessSection = () => {
                     padding: '3rem',
                     textAlign: 'center',
                     position: 'relative',
-                    overflow: 'hidden'
-                }}>
+                    overflow: 'hidden',
+                    transition: 'transform 0.3s ease'
+                }} className="tournament-card">
                     <div style={{ position: 'relative', zIndex: 2 }}>
                         <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
-                            <Trophy size={48} color="#FFD700" />
+                            <Trophy size={48} color="#FFD700" className="trophy-icon" />
                         </div>
                         <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '1rem', color: '#FFD700' }}>CHAMPIONS OF 82</h3>
                         <p style={{ fontSize: '1.1rem', maxWidth: '700px', margin: '0 auto 1.5rem', opacity: 0.9 }}>
-                            One of our proudest moments was emerging as the winners of the <strong>82 Sport Tournament</strong>.
+                            One of our proudest moments was emerging as the winners of the 82 Sport Tournament.
                             This victory stands as a testament to our skill, teamwork, and the unwavering spirit of our players.
                         </p>
                         <span style={{
@@ -104,13 +107,38 @@ const SuccessSection = () => {
                     </div>
                 </div>
 
-                {/* Inline CSS for responsive grid */}
+                {/* Inline CSS for effects */}
                 <style>{`
+                    .hover-image:hover {
+                        transform: scale(1.03);
+                        box-shadow: 0 15px 40px rgba(0,0,0,0.25) !important;
+                    }
+
+                    .vision-card:hover {
+                        transform: translateX(10px);
+                        box-shadow: 0 8px 15px rgba(0,0,0,0.1) !important;
+                    }
+
+                    .milestone-card:hover {
+                        transform: translateY(-10px);
+                        box-shadow: 0 12px 25px rgba(0,0,0,0.15) !important;
+                        border-top-width: 8px !important;
+                    }
+
+                    .tournament-card:hover {
+                        transform: scale(1.01);
+                    }
+
+                    .tournament-card:hover .trophy-icon {
+                        transform: scale(1.2) rotate(10deg);
+                        transition: transform 0.3s ease;
+                    }
+
                     @media (max-width: 900px) {
-                        #success .grid-cols-2 {
+                        .journey-grid {
                             grid-template-columns: 1fr !important;
                         }
-                        #success img {
+                        .journey-image-container {
                             margin-bottom: 2rem;
                         }
                     }
