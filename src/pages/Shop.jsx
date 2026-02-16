@@ -21,6 +21,14 @@ const Shop = () => {
             category: "Jerseys",
             image: "/jersey2.jpg",
             tag: "Available Now"
+        },
+        {
+            id: 3,
+            name: "Sita Mbili FC - Third Kit 2024/25",
+            price: "KES 1,500",
+            category: "Jerseys",
+            image: "/jersey3.webp",
+            tag: "New Arrival"
         }
     ];
 
