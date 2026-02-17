@@ -25,7 +25,7 @@ const SuccessSection = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center', marginBottom: '5rem' }} className="journey-grid">
                     <div className="animate-fade-in journey-image-container">
                         <img
-                            src="/sucsess.jpg"
+                            src="/success.jpg"
                             alt="Sita Mbili FC Team Success"
                             className="hover-image"
                             style={{ width: '100%', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.15)', transition: 'all 0.4s ease' }}

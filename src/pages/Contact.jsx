@@ -43,7 +43,7 @@ const Contact = () => {
                             </div>
                             <div>
                                 <h4 style={{ margin: 0, fontSize: '0.9rem', opacity: 0.7 }}>Phone</h4>
-                                <p style={{ fontWeight: 600 }}>+254 700 123 456</p>
+                                <p style={{ fontWeight: 600 }}>+254 790 591 621</p>
                             </div>
                         </div>
 

@@ -44,10 +44,10 @@ const Footer = () => {
                             and empowering youth within the Kibera community through sports and social transformation.
                         </p>
                         <div style={{ display: 'flex', gap: '1rem' }}>
-                            <a href="https://www.facebook.com/sitambilifc" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: 'rgba(255,255,255,0.1)', p: '0.6rem', borderRadius: '50%', display: 'flex', padding: '0.6rem' }} className="social-hover">
+                            <a href="https://www.facebook.com/sitambilifc" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '0.6rem', borderRadius: '50%', display: 'flex' }} className="social-hover">
                                 <Facebook size={20} />
                             </a>
-                            <a href="https://www.instagram.com/sitambilifc" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: 'rgba(255,255,255,0.1)', p: '0.6rem', borderRadius: '50%', display: 'flex', padding: '0.6rem' }} className="social-hover">
+                            <a href="https://www.instagram.com/sitambilifc" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '0.6rem', borderRadius: '50%', display: 'flex' }} className="social-hover">
                                 <Instagram size={20} />
                             </a>
                         </div>
@@ -88,7 +88,7 @@ const Footer = () => {
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', opacity: 0.8 }}>
                                 <Phone size={18} color="var(--color-secondary-yellow)" />
-                                <span>+254 700 123 456</span>
+                                <span>+254 790 591 621</span>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', opacity: 0.8 }}>
                                 <Mail size={18} color="var(--color-secondary-yellow)" />

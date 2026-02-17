@@ -35,10 +35,11 @@ const Donate = () => {
                 setFormData({ name: '', amount: '', method: 'M-Pesa', phone: '' });
                 setTimeout(() => setShowSuccess(false), 5000);
             } else {
-                alert('Failed to submit donation. Please ensure the server is running.');
+                const errorData = await response.json().catch(() => ({}));
+                alert(`Failed to submit donation: ${errorData.error || 'Server error'}. Please ensure the server is running.`);
             }
         } catch (err) {
-            alert('Error connecting to the backend server.');
+            alert('Error connecting to the backend server. Please make sure the backend is active.');
         } finally {
             setIsSubmitting(false);
         }
