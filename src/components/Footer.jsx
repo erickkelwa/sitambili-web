@@ -113,7 +113,7 @@ const Footer = () => {
                 }}>
                     <p>&copy; {currentYear} Sitambili Football Club. All rights reserved.</p>
                     <div style={{ display: 'flex', gap: '2rem' }}>
-                        <Link to="/admin" style={{ color: '#fff' }}>Admin Login</Link>
+                        <Link to="/admin/login" style={{ color: '#fff' }}>Admin Login</Link>
                         <span>Terms & Conditions</span>
                         <span>Privacy Policy</span>
                     </div>

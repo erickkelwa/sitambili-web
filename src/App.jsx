@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Donate from './pages/Donate';
 import Contact from './pages/Contact';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminLogin from './pages/AdminLogin';
 import Shop from './pages/Shop';
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/shop" element={<Shop />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
           </Routes>
         </main>
         <Footer />
