@@ -1,5 +1,6 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
+const mysql = require('mysql2');
+require('dotenv').config();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -18,35 +19,42 @@ app.use(bodyParser.json());
 const frontendBuildPath = path.resolve(__dirname, '../dist');
 app.use(express.static(frontendBuildPath));
 
-// Database Setup
-const dbPath = path.resolve(__dirname, 'donations.db');
-const db = new sqlite3.Database(dbPath, (err) => {
+// MySQL Database Setup
+const db = mysql.createConnection({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'sitambili_fc'
+});
+
+db.connect((err) => {
     if (err) {
-        console.error('Error opening database:', err.message);
+        console.error('Error connecting to MySQL:', err.message);
+        console.log('Ensure your MySQL server is running and the database "' + (process.env.DB_NAME || 'sitambili_fc') + '" exists.');
     } else {
-        console.log('Connected to the SQLite database.');
+        console.log('Connected to the MySQL database.');
 
         // Create Donations Table
-        db.run(`CREATE TABLE IF NOT EXISTS donations (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            amount INTEGER NOT NULL,
-            method TEXT NOT NULL,
-            phone TEXT,
-            date TEXT NOT NULL,
-            status TEXT DEFAULT 'Pending'
+        db.query(`CREATE TABLE IF NOT EXISTS donations (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            name VARCHAR(255) NOT NULL,
+            amount INT NOT NULL,
+            method VARCHAR(50) NOT NULL,
+            phone VARCHAR(20),
+            date VARCHAR(50) NOT NULL,
+            status VARCHAR(20) DEFAULT 'Pending'
         )`);
 
         // Create Admin Users Table
-        db.run(`CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            password TEXT
+        db.query(`CREATE TABLE IF NOT EXISTS users (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            username VARCHAR(255) UNIQUE,
+            password VARCHAR(255)
         )`, async (err) => {
             if (!err) {
                 // Seed default admin if not exists
                 const hashedPassword = await bcrypt.hash('admin123', 10);
-                db.run(`INSERT OR IGNORE INTO users (username, password) VALUES (?, ?)`, ['admin', hashedPassword]);
+                db.query(`INSERT IGNORE INTO users (username, password) VALUES (?, ?)`, ['admin', hashedPassword]);
             }
         });
     }
@@ -72,10 +80,11 @@ const authenticateToken = (req, res, next) => {
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
 
-    db.get("SELECT * FROM users WHERE username = ?", [username], async (err, user) => {
+    db.query("SELECT * FROM users WHERE username = ?", [username], async (err, results) => {
         if (err) return res.status(500).json({ error: "Database error" });
-        if (!user) return res.status(401).json({ error: "Invalid credentials" });
+        if (results.length === 0) return res.status(401).json({ error: "Invalid credentials" });
 
+        const user = results[0];
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) return res.status(401).json({ error: "Invalid credentials" });
 
@@ -89,14 +98,15 @@ app.post('/api/change-password', authenticateToken, async (req, res) => {
     const { currentPassword, newPassword } = req.body;
     const userId = req.user.id;
 
-    db.get("SELECT password FROM users WHERE id = ?", [userId], async (err, user) => {
-        if (err || !user) return res.status(500).json({ error: "Database error" });
+    db.query("SELECT password FROM users WHERE id = ?", [userId], async (err, results) => {
+        if (err || results.length === 0) return res.status(500).json({ error: "Database error" });
 
+        const user = results[0];
         const validPassword = await bcrypt.compare(currentPassword, user.password);
         if (!validPassword) return res.status(401).json({ error: "Current password incorrect" });
 
         const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-        db.run("UPDATE users SET password = ? WHERE id = ?", [hashedNewPassword, userId], (err) => {
+        db.query("UPDATE users SET password = ? WHERE id = ?", [hashedNewPassword, userId], (err) => {
             if (err) return res.status(500).json({ error: "Failed to update password" });
             res.json({ message: "Password updated successfully" });
         });
@@ -105,12 +115,12 @@ app.post('/api/change-password', authenticateToken, async (req, res) => {
 
 // Protected: Get all donations
 app.get('/api/donations', authenticateToken, (req, res) => {
-    db.all("SELECT * FROM donations ORDER BY date DESC", [], (err, rows) => {
+    db.query("SELECT * FROM donations ORDER BY date DESC", (err, results) => {
         if (err) {
             res.status(500).json({ error: err.message });
             return;
         }
-        res.json(rows);
+        res.json(results);
     });
 });
 
@@ -121,22 +131,24 @@ app.post('/api/donations', (req, res) => {
         res.status(400).json({ error: "Missing required fields" });
         return;
     }
-    const stmt = db.prepare("INSERT INTO donations (name, amount, method, phone, date, status) VALUES (?, ?, ?, ?, ?, ?)");
-    stmt.run(name, amount, method, phone, date, "Pending", function (err) {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
+    db.query(
+        "INSERT INTO donations (name, amount, method, phone, date, status) VALUES (?, ?, ?, ?, ?, ?)",
+        [name, amount, method, phone, date, "Pending"],
+        (err, results) => {
+            if (err) {
+                res.status(500).json({ error: err.message });
+                return;
+            }
+            res.json({ id: results.insertId, name, amount, method, phone, date, status: "Pending" });
         }
-        res.json({ id: this.lastID, name, amount, method, phone, date, status: "Pending" });
-    });
-    stmt.finalize();
+    );
 });
 
 // Protected: Update donation status
 app.put('/api/donations/:id/status', authenticateToken, (req, res) => {
     const { status } = req.body;
     const { id } = req.params;
-    db.run("UPDATE donations SET status = ? WHERE id = ?", [status, id], function (err) {
+    db.query("UPDATE donations SET status = ? WHERE id = ?", [status, id], (err) => {
         if (err) {
             res.status(500).json({ error: err.message });
             return;
@@ -160,3 +172,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
